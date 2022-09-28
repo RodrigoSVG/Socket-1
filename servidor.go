@@ -9,6 +9,15 @@ import (
 	"strings"
 )
 
+func seno(s []string) {
+	co, _ := strconv.ParseFloat(s[0], 64)
+	hi, _ := strconv.ParseFloat(s[2], 64)
+
+	seno := co / hi
+	fmt.Println(seno)
+
+}
+
 func main() {
 
 	fmt.Println("Servidor aguardando conexões...")
@@ -63,10 +72,10 @@ func main() {
 		// resultado := strconv.Itoa(operacao)
 
 		// envia a mensagem processada de volta ao cliente
-		teste := valoresDoTriangulo[1]
-		vasdy := string(teste)
+
+		vasdy := "string(teste)"
+		go seno(valoresDoTriangulo)
 		conexao.Write([]byte(vasdy + "\n"))
-		// conexao.Write([]byte(valoresDoTriangulo[1] + "\n"))
-		// conexao.Write([]byte(valoresDoTriangulo[2] + "\n"))
+
 	}
 }
