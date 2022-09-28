@@ -6,16 +6,19 @@ import (
 	"net"
 	"os"
 	"strconv"
-	"strings"
 )
 
-func seno(s []string) {
-	co, _ := strconv.ParseFloat(s[0], 64)
-	hi, _ := strconv.ParseFloat(s[2], 64)
+func areaCirculo(cliente string) string {
+	fmt.Println(cliente)
+	// var r float64 = float64(cliente)
+	// fmt.Println(r)
+	// p := 3.14
 
-	seno := co / hi
-	fmt.Println(seno)
+	// A := p * (r * r)
 
+	// teste := strconv.FormatFloat(A, 'f', -1, 64)
+
+	return "teste"
 }
 
 func main() {
@@ -49,33 +52,36 @@ func main() {
 			fmt.Println(erro3)
 			os.Exit(3)
 		}
+
+		// mensagem2 := mensagem
+		// novaMensagem, _ := strconv.ParseFloat(mensagem, 64)
 		//Moca a entrada do usuário
-		valoresDoTriangulo := strings.Split(mensagem, " ")
+		// valoresDoTriangulo := strings.Split(mensagem, " ")
 
 		// escreve no terminal a mensagem recebida
-		fmt.Print("Mensagem recebida:", valoresDoTriangulo)
-
-		// operacao, _ := strconv.Atoi("3")
-
-		// print(operacao, mensagem, err)
-
-		// para um exemplo simples de processamento, converte a mensagem recebida para caixa alta
-		// novamensagem := strings.ToUpper(mensagem)
-		// outramensagem = 1 + 2
-		// t := outramensagem
-		go func() int {
-			operacao, _ := strconv.Atoi(string(mensagem))
-			d := 1 + operacao + 7
-			return d
-		}()
-
-		// resultado := strconv.Itoa(operacao)
+		fmt.Print("Mensagem recebida:", mensagem)
 
 		// envia a mensagem processada de volta ao cliente
 
-		vasdy := "string(teste)"
-		go seno(valoresDoTriangulo)
-		conexao.Write([]byte(vasdy + "\n"))
+		texto := string(mensagem)
+		fmt.Println(texto)
+		teste, err := strconv.Atoi(mensagem)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(teste)
+
+		testando := areaCirculo(texto)
+
+		// outramensagem := " teste" + mensagem
+		// r := 10.0
+		// p := 3.14
+
+		// A := p * (r * r)
+
+		// teste := strconv.FormatFloat(A, 'f', -1, 64)
+
+		conexao.Write([]byte(testando + "\n"))
 
 	}
 }
