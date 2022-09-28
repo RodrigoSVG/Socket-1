@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func areaCirculo(cliente string) string {
@@ -52,7 +53,8 @@ func main() {
 			fmt.Println(erro3)
 			os.Exit(3)
 		}
-
+		hi := strings.Split(mensagem, "\b")
+		fmt.Println(hi[0])
 		// mensagem2 := mensagem
 		// novaMensagem, _ := strconv.ParseFloat(mensagem, 64)
 		//Moca a entrada do usuário
