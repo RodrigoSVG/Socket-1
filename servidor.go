@@ -7,20 +7,46 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
 )
 
-func seno(s []string) {
+func seno(s []string) string {
 	co, _ := strconv.ParseFloat(s[0], 64)
 	hi, _ := strconv.ParseFloat(s[2], 64)
 
 	seno := co / hi
-	fmt.Println(seno)
+	senoConvertido := strconv.FormatFloat(seno, 'f', -1, 64)
+	return "Seno" + senoConvertido
+
+}
+
+func coseno(s []string) string {
+	ca, _ := strconv.ParseFloat(s[1], 64)
+	hi, _ := strconv.ParseFloat(s[2], 64)
+
+	coseno := ca / hi
+	cosenoConvertido := strconv.FormatFloat(coseno, 'f', -1, 64)
+	return "\nCoseno: " + cosenoConvertido
+
+}
+
+func tangente(s []string) string {
+	co, _ := strconv.ParseFloat(s[0], 64)
+	ca, _ := strconv.ParseFloat(s[1], 64)
+
+	tangente := co / ca
+	tangenteConvertida := strconv.FormatFloat(tangente, 'f', -1, 64)
+	return "\nTangente: " + tangenteConvertida
 
 }
 
 func main() {
 
 	fmt.Println("Servidor aguardando conexões...")
+
+	var wg sync.WaitGroup
+	chSeno := make(chan string)
 
 	// ouvindo na porta 8081 via protocolo tcp/ip
 	ln, erro1 := net.Listen("tcp", ":8081")
@@ -55,27 +81,39 @@ func main() {
 		// escreve no terminal a mensagem recebida
 		fmt.Print("Mensagem recebida:", valoresDoTriangulo)
 
-		// operacao, _ := strconv.Atoi("3")
+		wg.Add(3)
+		go func(wg *sync.WaitGroup) chan string {
+			defer wg.Done()
 
-		// print(operacao, mensagem, err)
+			chSeno <- seno(valoresDoTriangulo)
+			time.Sleep(2 * time.Second)
+			fmt.Println("fim go routine 1...")
+			return chSeno
+		}(&wg)
 
-		// para um exemplo simples de processamento, converte a mensagem recebida para caixa alta
-		// novamensagem := strings.ToUpper(mensagem)
-		// outramensagem = 1 + 2
-		// t := outramensagem
-		go func() int {
-			operacao, _ := strconv.Atoi(string(mensagem))
-			d := 1 + operacao + 7
-			return d
-		}()
+		go func(wg *sync.WaitGroup) string {
+			defer wg.Done()
+			coseno := coseno(valoresDoTriangulo)
+			time.Sleep(3 * time.Second)
+			fmt.Println("fim go routine 2...")
+			return coseno
+		}(&wg)
 
-		// resultado := strconv.Itoa(operacao)
+		go func(wg *sync.WaitGroup) string {
+			defer wg.Done()
+			tangente := tangente(valoresDoTriangulo)
+			fmt.Println("fim go routine 3...")
+			return tangente
+		}(&wg)
+		fmt.Println("Aguardando...")
 
-		// envia a mensagem processada de volta ao cliente
+		wg.Wait()
+		fmt.Println("Fim...", <-chSeno)
+		// fmt.Print(seno, coseno, tangente)
+		// u := make([]byte, 32)
 
-		vasdy := "string(teste)"
-		go seno(valoresDoTriangulo)
-		conexao.Write([]byte(vasdy + "\n"))
+		i := []byte("t")
+		conexao.Write(i)
 
 	}
 }
