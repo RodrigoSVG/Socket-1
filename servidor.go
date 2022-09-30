@@ -85,7 +85,7 @@ func main() {
 			os.Exit(3)
 		}
 
-		valoresDoTriangulo := strings.Split(" ")
+		valoresDoTriangulo := strings.Split(mensagem, " ")
 
 		fmt.Print("Mensagem recebida:", valoresDoTriangulo)
 
