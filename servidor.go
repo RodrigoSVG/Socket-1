@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+<<<<<<< HEAD
 func seno(s []string) string {
 	co, _ := strconv.ParseFloat(s[0], 64)
 	hi, _ := strconv.ParseFloat(s[2], 64)
@@ -38,7 +39,19 @@ func tangente(s []string) string {
 	tangente := co / ca
 	tangenteConvertida := strconv.FormatFloat(tangente, 'f', -1, 64)
 	return "\nTangente: " + tangenteConvertida
+=======
+func areaCirculo(cliente string) string {
+	fmt.Println(cliente)
+	// var r float64 = float64(cliente)
+	// fmt.Println(r)
+	// p := 3.14
 
+	// A := p * (r * r)
+>>>>>>> 96b153dd0cdff26ef1016158e2c23d9aeae3bc8d
+
+	// teste := strconv.FormatFloat(A, 'f', -1, 64)
+
+	return "teste"
 }
 
 func main() {
@@ -75,10 +88,15 @@ func main() {
 			fmt.Println(erro3)
 			os.Exit(3)
 		}
+		hi := strings.Split(mensagem, "\b")
+		fmt.Println(hi[0])
+		// mensagem2 := mensagem
+		// novaMensagem, _ := strconv.ParseFloat(mensagem, 64)
 		//Moca a entrada do usuário
-		valoresDoTriangulo := strings.Split(mensagem, " ")
+		// valoresDoTriangulo := strings.Split(mensagem, " ")
 
 		// escreve no terminal a mensagem recebida
+<<<<<<< HEAD
 		fmt.Print("Mensagem recebida:", valoresDoTriangulo)
 
 		wg.Add(3)
@@ -106,14 +124,39 @@ func main() {
 			return tangente
 		}(&wg)
 		fmt.Println("Aguardando...")
+=======
+		fmt.Print("Mensagem recebida:", mensagem)
+>>>>>>> 96b153dd0cdff26ef1016158e2c23d9aeae3bc8d
 
 		wg.Wait()
 		fmt.Println("Fim...", <-chSeno)
 		// fmt.Print(seno, coseno, tangente)
 		// u := make([]byte, 32)
 
+<<<<<<< HEAD
 		i := []byte("t")
 		conexao.Write(i)
+=======
+		texto := string(mensagem)
+		fmt.Println(texto)
+		teste, err := strconv.Atoi(mensagem)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(teste)
+
+		testando := areaCirculo(texto)
+
+		// outramensagem := " teste" + mensagem
+		// r := 10.0
+		// p := 3.14
+
+		// A := p * (r * r)
+
+		// teste := strconv.FormatFloat(A, 'f', -1, 64)
+
+		conexao.Write([]byte(testando + "\n"))
+>>>>>>> 96b153dd0cdff26ef1016158e2c23d9aeae3bc8d
 
 	}
 }
