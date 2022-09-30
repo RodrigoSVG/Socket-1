@@ -17,7 +17,7 @@ func seno(s []string) string {
 
 	seno := co / hi
 	senoConvertido := strconv.FormatFloat(seno, 'f', -1, 64)
-	return "Seno" + senoConvertido
+	return "Seno: " + senoConvertido
 
 }
 
@@ -90,13 +90,20 @@ func main() {
 		fmt.Print("Mensagem recebida:", valoresDoTriangulo)
 
 		wg.Add(3)
-		go func(wg *sync.WaitGroup) chan string {
+		go func(wg *sync.WaitGroup) string {
 			defer wg.Done()
 
 			chSeno <- seno(valoresDoTriangulo)
 			time.Sleep(2 * time.Second)
 			fmt.Println("fim go routine 1...")
-			return chSeno
+			return "chSeno"
+		}(&wg)
+
+		go func(wg *sync.WaitGroup) string {
+			defer wg.Done()
+			tangente := tangente(valoresDoTriangulo)
+			fmt.Println("fim go routine 3...")
+			return tangente
 		}(&wg)
 
 		go func(wg *sync.WaitGroup) string {
@@ -107,13 +114,7 @@ func main() {
 			return coseno
 		}(&wg)
 
-		go func(wg *sync.WaitGroup) string {
-			defer wg.Done()
-			tangente := tangente(valoresDoTriangulo)
-			fmt.Println("fim go routine 3...")
-			return tangente
-		}(&wg)
-		fmt.Println("Aguardando...")
+		fmt.Println("Aguardando...", <-chSeno)
 
 		fmt.Print("Mensagem recebida:", mensagem)
 
