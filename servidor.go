@@ -90,13 +90,13 @@ func main() {
 		fmt.Print("Mensagem recebida:", valoresDoTriangulo)
 
 		wg.Add(3)
-		go func(wg *sync.WaitGroup) string {
+		go func(wg *sync.WaitGroup) {
 			defer wg.Done()
 
 			chSeno <- seno(valoresDoTriangulo)
-			time.Sleep(2 * time.Second)
+			time.Sleep(1 * time.Second)
 			fmt.Println("fim go routine 1...")
-			return "chSeno"
+
 		}(&wg)
 
 		go func(wg *sync.WaitGroup) string {
@@ -108,18 +108,18 @@ func main() {
 
 		go func(wg *sync.WaitGroup) string {
 			defer wg.Done()
-			coseno := coseno(valoresDoTriangulo)
 			time.Sleep(3 * time.Second)
+			fmt.Println(<-chSeno)
+			coseno := coseno(valoresDoTriangulo)
+
 			fmt.Println("fim go routine 2...")
 			return coseno
 		}(&wg)
-
-		fmt.Println("Aguardando...", <-chSeno)
-
-		fmt.Print("Mensagem recebida:", mensagem)
-
+		fmt.Println("Aguardando...")
 		wg.Wait()
-		fmt.Println("Fim...", <-chSeno)
+
+		fmt.Println("Fim...")
+
 		// fmt.Print(seno, coseno, tangente)
 
 		// texto := string(mensagem)
@@ -129,9 +129,9 @@ func main() {
 		// 	fmt.Println(err)
 		// }
 		// fmt.Println(teste)
+		k := <-chSeno
 
-		i := []byte("t")
-		conexao.Write(i)
+		conexao.Write([]byte(k + " "))
 
 	}
 }

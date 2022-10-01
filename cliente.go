@@ -32,7 +32,7 @@ func main() {
 		fmt.Fprintf(conexao, co+ca+h+"\n")
 
 		// ouvindo a resposta do servidor (eco)
-		resp, err3 := bufio.NewReader(conexao).ReadString('\n')
+		resp, err3 := bufio.NewReader(conexao).ReadString(' ')
 		if err3 != nil {
 			fmt.Println(err3)
 			os.Exit(3)
