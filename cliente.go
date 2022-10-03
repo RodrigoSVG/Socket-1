@@ -5,16 +5,27 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"time"
+)
+
+var (
+	conn net.Conn
+	err  error
 )
 
 func main() {
 
 	// conectando na porta 8081 via protocolo tcp/ip na máquina local
-	conexao, erro1 := net.Dial("tcp", "127.0.0.1:8081")
-	if erro1 != nil {
-		fmt.Println(erro1)
-		os.Exit(3)
+	for {
+		fmt.Println("Conectando ao servidor...")
+		conn, err = net.Dial("tcp", "127.0.0.1:8081")
+		if err == nil {
+			break
+		}
+		fmt.Println(err)
+		time.Sleep(time.Second * 1)
 	}
+	fmt.Println("Conexão aceita.")
 
 	for {
 		// lendo entrada do terminal
@@ -29,10 +40,10 @@ func main() {
 		}
 
 		// escrevendo a mensagem na conexão (socket)
-		fmt.Fprintf(conexao, co+ca+h+"\n")
+		fmt.Fprintf(conn, co+ca+h+"\n")
 
 		// ouvindo a resposta do servidor (eco)
-		resp, err3 := bufio.NewReader(conexao).ReadString(' ')
+		resp, err3 := bufio.NewReader(conn).ReadString(' ')
 		if err3 != nil {
 			fmt.Println(err3)
 			os.Exit(3)

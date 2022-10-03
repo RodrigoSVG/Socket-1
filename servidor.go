@@ -41,21 +41,14 @@ func tangente(s []string) string {
 
 }
 
-// func areaCirculo(cliente string){
-
-// 	var r float64 = float64(cliente)
-// 	p := 3.14
-// 	A := p * (r * r)
-// 	teste := strconv.FormatFloat(A, 'f', -1, 64)
-// 	return teste
-// }
-
 func main() {
 
 	fmt.Println("Servidor aguardando conexões...")
 
 	var wg sync.WaitGroup
-	chSeno := make(chan string)
+	// chSeno := make(chan string)
+	// chCoseno := make(chan string)
+	// chTangente := make(chan string)
 
 	// ouvindo na porta 8081 via protocolo tcp/ip
 	ln, erro1 := net.Listen("tcp", ":8081")
@@ -90,48 +83,52 @@ func main() {
 		fmt.Print("Mensagem recebida:", valoresDoTriangulo)
 
 		wg.Add(3)
-		go func(wg *sync.WaitGroup) {
+		go func(wg *sync.WaitGroup) string {
 			defer wg.Done()
 
-			chSeno <- seno(valoresDoTriangulo)
+			// chSeno <- seno(valoresDoTriangulo)
 			time.Sleep(1 * time.Second)
 			fmt.Println("fim go routine 1...")
-
+			return "chSeno"
 		}(&wg)
 
 		go func(wg *sync.WaitGroup) string {
 			defer wg.Done()
-			tangente := tangente(valoresDoTriangulo)
+			// chTangente <- tangente(valoresDoTriangulo)
 			fmt.Println("fim go routine 3...")
-			return tangente
+
+			return "chTangente"
+
 		}(&wg)
 
 		go func(wg *sync.WaitGroup) string {
 			defer wg.Done()
 			time.Sleep(3 * time.Second)
-			fmt.Println(<-chSeno)
-			coseno := coseno(valoresDoTriangulo)
+			// fmt.Println(<-chSeno)
+
+			// chCoseno <- coseno(valoresDoTriangulo)
 
 			fmt.Println("fim go routine 2...")
-			return coseno
+			return "chCoseno"
+
 		}(&wg)
 		fmt.Println("Aguardando...")
+
 		wg.Wait()
 
 		fmt.Println("Fim...")
 
-		// fmt.Print(seno, coseno, tangente)
+		// s := <-chSeno
+		// sn := <-chCoseno
+		// t := <-chTangente
 
-		// texto := string(mensagem)
-		// fmt.Println(texto)
-		// teste, err := strconv.Atoi(mensagem)
-		// if err != nil {
-		// 	fmt.Println(err)
-		// }
-		// fmt.Println(teste)
-		k := <-chSeno
+		// close(chSeno)
+		// close(chCoseno)
+		// close(chTangente)
 
-		conexao.Write([]byte(k + " "))
+		// conexao.Write([]byte(string(s + sn + t + "\r\n")))
+
+		conexao.Write([]byte(string(mensagem + "\r\n")))
 
 	}
 }
